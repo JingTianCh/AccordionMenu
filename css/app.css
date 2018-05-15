@@ -6,7 +6,9 @@ button{
 
 body, button, p {
     font-family: 'arial', serif;
-    box-sizing: border-box; 
+    background-color: grey;
+    color:black;
+    font-size: 100%;
 }
 
 h2, h3 {
@@ -35,30 +37,91 @@ button {
   text-align: left;
   text-transform: uppercase;}
 
+/*---------------------select-Accordion---------------------*/
+.select-button-area{
+  height:30px;
+  font-family: 'arial', sans-serif;
+}
 
-/*---------------------accordion---------------------*/
+#select-cancle{
+  background-color: black;
+  font-size:18px;
+  font-weight: bolder;
+  color:white;
+  padding-left:8px;
+  padding-right: 8px;
+  margin:2px 10px;
+  height:25px;
+  float:left;
+  cursor: pointer;
+}
+#select-yes{
+  background-color:#CD2626;
+  font-size: 18px;
+  font-weight: bolder;
+  color:white;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin:2px 10px;
+  height:25px;
+  float:right;
+  cursor: pointer;
+}
 
+#pop{
+  font-size:14px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  background-color:#000;
+  width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+  z-index:998;
+  filter:alpha(opacity=30);  /*设置透明度为30%*/
+  opacity:0.3;  /*非IE浏览器下设置透明度为30%*/
+  display:none;
 
-#selectList{
-    float:right;
-    width:410px;
-    margin:0;
 
 }
-.accordion{
-    width:410px;
+
+#selectList{
+  background-color: #fff;
+  position:fixed;
+  left:auto;
+  top:0;
+  width:436px;
+  z-index: 999;
+  margin:0;
+  color:black;
+  display:none;
+}
+
+.select-Accordion ::-webkit-scrollbar
+{
+  width: 16px;
+  height: 16px;
+  background-color: #F5F5F5;
+}
+.select-Accordion{
+    background-color:#fff;
+    position:fixed;
+    left:auto;
+    top:60px;
+    width:436px;
     padding:auto;
     margin:0;
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /*
-.accordion-panel{
+.select-Accordion-panel{
     display:none;
 }
 */
 
 
-.accordion-control{
+.select-Accordion-control{
     width:390px;
     background-color: rgb(0, 142, 219);
     color:#F9F9F9;
@@ -71,55 +134,46 @@ button {
     height:20px;
     cursor:help;
     padding:2px 4px;
-    margin-right:0;
-    margin-left:10px;
+    margin-right:0px;
+    margin-left:20px;
 }
 
 
-.accordion-control  span{
+.select-Accordion-control  span{
     display:inline-block;
     float:right;
 }
 
 
-.fClassControl{
-    margin-left: 0px;
-}
-
-
-.sClassControl{
-    margin-left: 6px;
-}
-
-
-.select{
+.input-select{
     cursor: pointer;
     margin-right: 0px;
     padding-right:5px;
+    border-right:5px;
+    border-color:rgba(255,255,255,0);
 }
 
 
-.accordion-panel .select{
-    margin-left:15px;
+.select-Accordion-panel .input-select{
+    margin-left:25px;
 
 }
 
 
-i{
+#selectList i{
     float:right;
-
 }
 
 
-.accordion-panel{
+.select-Accordion-panel{
     margin-left:10px;
     margin-right:0
     font-family:arial;
     display:inline-block;
 }
 
-.accordion .checkBorder{
-    border: 1px solid rgb(0, 142, 219); 
+.select-Accordion .checkBorder{
+    border: 1px solid rgb(0, 142, 219);
 }
 
 
@@ -138,8 +192,8 @@ i{
 #linkBox ul {
     padding-left: 0;
     max-height: 200px;
-    
-    
+
+
 }
 #linkBox ul li{
 		list-style: none;
@@ -170,5 +224,119 @@ i{
     color:white;
     font-weight: bold;
     vertical-align:middle;
+
+}
+/*---------------------check-Accordion---------------------*/
+.check-button-area{
+  height:30px;
+  font-family: 'arial', sans-serif;
+}
+
+#check-cancle{
+  background-color: black;
+  font-size:18px;
+  font-weight: bolder;
+  color:white;
+  padding-left:8px;
+  padding-right: 8px;
+  margin:2px 10px;
+  height:25px;
+  float:left;
+  cursor: pointer;
+}
+#check-yes{
+  background-color:#CD2626;
+  font-size: 18px;
+  font-weight: bolder;
+  color:white;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin:2px 10px;
+  height:25px;
+  float:right;
+  cursor: pointer;
+}
+#checkList{
+  background-color: #fff;
+  position:fixed;
+  left:auto;
+  top:0;
+  width:436px;
+  z-index: 999;
+  margin:0;
+  color:black;
+  display:none;
+}
+
+.check-Accordion ::-webkit-scrollbar
+{
+  width: 16px;
+  height: 16px;
+  background-color: #F5F5F5;
+}
+.check-Accordion{
+    background-color:#fff;
+    position:fixed;
+    left:auto;
+    top:30px;
+    width:436px;
+    padding:auto;
+    margin:0;
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.input-check{
+  cursor: pointer;
+  margin-right: 0px;
+  padding-right:5px;
+  border-right:5px;
+  border-color:rgba(255,255,255,0);
+
+}
+
+.check-Accordion-panel{
+  margin-left:10px;
+  margin-right:0
+  font-family:arial;
+  display:inline-block;
+}
+.check-Accordion-control{
+    width:390px;
+    background-color: rgb(0, 142, 219);
+    color:#F9F9F9;
+    border-top:none;
+    border-color: #FFF;
+    border-style:solid;
+    border-width:1px;
+    text-align: left;
+    font-family:arial;
+    height:20px;
+    cursor:help;
+    padding:2px 4px;
+    margin-right:0px;
+    margin-left:20px;
+}
+
+.check-Accordion-control  span{
+    display:inline-block;
+    float:right;
+}
+
+.check-Accordion-panel .input-check{
+    margin-left:25px;
+
+}
+
+
+#checkList i{
+    float:right;
+}
+
+.checkBackground{
+  background-color: #B0C4DE;
+  font-weight:bold;
 
 }

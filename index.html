@@ -9,22 +9,43 @@
 </head>
 
 <body>
-    <button>Hide or Show</button>
+    <button id='radioSelect'>Hide or Show radioList</button>
+    <button id='checkSelect'>Hide or Show checkList</button>
+    <div id='pop'>    </div>
+
+
     <div id='selectList'>
         <div id='searchArea'>
             <input type="text" id='searchText'>
             <span id='searchStatic'>快速搜索</span>
             <div id='linkBox'>
-                <ul></ul>
+              <ul></ul>
             </div>
         </div>
-        <div class='accordion'>
+        <div class="select-button-area">
+
+        <span id='select-cancle'>取消</span> <span id='select-yes'>确定</span>
+        </div>
+        <div class='select-Accordion'>
 
         </div>
     </div>
 
+    <div id="checkList">
+      <div class="check-button-area">
+      <span id='check-cancle'>取消</span> <span id='check-yes'>确定</span>
+      </div>
+
+      <div class='check-Accordion'>
+      </div>
+    </div>
+
+
 </body>
 <script src='js/jquery-1.11.0.min.js'></script>
 <script src="js/app.js"></script>
+<script type="text/javascript" src='js/appcheck.js'>
+
+</script>
 
 </html>

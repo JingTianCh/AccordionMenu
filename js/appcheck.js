@@ -1,8 +1,50 @@
-var classdata=[
+var checkdata=[
     {
         'classId':'0000',
         'parentId':'0',
-        'name':'正常Normal',
+        'name':'样本质量评估',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0100',
+        'parentId':'0000',
+        'name':'阅片满意',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0110',
+        'parentId':'0100',
+        'name':'有颈管细胞或化生细胞',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0120',
+        'parentId':'0100',
+        'name':'无颈管细胞或化生细胞',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0130',
+        'parentId':'0100',
+        'name':'其他影响质量指标',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0200',
+        'parentId':'0000',
+        'name':'阅片不满意',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0210',
+        'parentId':'0200',
+        'name':'鳞状细胞数量<5000',
+        'color':'rgb(0,255,255)'
+    },
+    {
+        'classId':'0220',
+        'parentId':'0200',
+        'name':'其他',
         'color':'rgb(0,255,255)'
     },
     {
@@ -79,12 +121,12 @@ var classdata=[
     },   {
         'classId':'1122',
         'parentId':'1120',
-        'name':'放射治疗',
+        'name':'放射治疗引起的细胞反应性改变',
         'color':'#FF6600'
     },   {
         'classId':'1123',
         'parentId':'1120',
-        'name':'宫内节育器(IUD)',
+        'name':'宫内节育器(IUD)引起的细胞反应性改变',
         'color':'#FFCC33'
     },    {
         'classId':'1130',
@@ -231,36 +273,36 @@ var classdata=[
 
 
 ];
+
 //建立包含所有select对象的数组
 //数组中包含对象，每个对象有classid 和 name的键，与classdata中的内容相对应。
-var radioItems=[];
-
+var checkItems=[];
 
 //根据类别对象，在列表中创建选项
-var createAccorC=function(el){
+var createAccorCheckC=function(el){
     //如果已存在，则返回
-    if($('.select-Accordion [classId="'+el.classId+'"]').length>0){
+    if($('.check-Accordion [classId="'+el.classId+'"]').length>0){
         return true;
     }
     //设置新元素内容
-    var $newControl=$(`<div class='input-select' classId='${el.classId}'><input type="radio" name='type' radioId='${el.classId}'>${el.name}<span></span><i style='color:${el.color}' class='myColor fa fa-square'></i></div>`);
+    var $newControl=$(`<div class='input-check' classId='${el.classId}'><input type="checkbox" name='type' checkId='${el.classId}'>${el.name}<span></span></div>`);
 
-    if(el.parentId=='0'){
-        $('.select-Accordion').append($newControl);
+    if(el.parentId==='0'){
+        $('.check-Accordion').append($newControl);
         //设置一级类别margin-left
         $newControl.css('marginLeft','10px');
         return true;
         }
     else{
-        var $parentEl=$('.select-Accordion [classId="'+el.parentId+'"]');
+        var $parentEl=$('.check-Accordion [classId="'+el.parentId+'"]');
         if($parentEl.length>0){
-            if ($parentEl.next('.select-Accordion-panel').length == 0) {
+            if ($parentEl.next('.check-Accordion-panel').length == 0) {
                 //修改类别,删除默认选项设置
-                $parentEl.removeClass('input-select').addClass('select-Accordion-control');
+                $parentEl.removeClass('input-check').addClass('check-Accordion-control');
                 //修改相关内容
                 $parentEl.append('<i class="fa fa-minus-square"></i>');
-                $parentEl.after(`<div class='select-Accordion-panel'></div>`);
-                var $panel=$parentEl.next('.select-Accordion-panel');
+                $parentEl.after(`<div class='check-Accordion-panel'></div>`);
+                var $panel=$parentEl.next('.check-Accordion-panel');
                 $panel.css('marginLeft',$parentEl.css('marginLeft'));
                 $panel.css('fontSize',returnPx($parentEl.css('fontSize'),-1));
                 $panel.css('width',returnPx($parentEl.css('width'),20));
@@ -268,7 +310,7 @@ var createAccorC=function(el){
                 $parentEl.children('input').remove();
                 $parentEl.children('.myColor').remove();
             }
-            $parentEl.next('.select-Accordion-panel').append($newControl);
+            $parentEl.next('.check-Accordion-panel').append($newControl);
             //对子元素设置缩进格式
             //margin-left使用css设置 .select值为15px, panel和control对应均为10px，因为.select对象在panel容器内，为了与control对齐，补偿control右侧的border和padding之和5px。
             $newControl.css('width',returnPx($parentEl.css('width'),-20));
@@ -282,21 +324,14 @@ var createAccorC=function(el){
     }
 
 }
-//根据原始属性值返回新的值
-//el代表原始提取的值，value代表做运算的差值
-var returnPx = function(text,value){
-    var vIndex=text.indexOf('px');
-    return (parseInt(text.substring(0,vIndex))+value)+'px';
-}
 
-
-var insertItem = function () {
+var insertItemCheck = function () {
     var insertsAll= new Promise(function(resolve,reject){
-    classdata.forEach(function (el, index) {
+    checkdata.forEach(function (el, index) {
         //查找其父元素
         var thisEl = el;
         var findEl = [];
-        var createBool = createAccorC(thisEl);
+        var createBool = createAccorCheckC(thisEl);
         var results = [];
         //若不能一次成功载入
         while (!createBool || (findEl.length > 1)) {
@@ -316,151 +351,106 @@ var insertItem = function () {
                 return elem.classId == findEl[findEl.length - 1];
             });
             thisEl = results[0];
-            createBool = createAccorC(thisEl);
+            createBool = createAccorCheckC(thisEl);
         }
 
     });
         resolve();
         });
     insertsAll.then(function(){
-        var $allSelects=$('.input-select');
+      checkItems=[];
+        var $allSelects=$('.input-check');
         $allSelects.each(function(){
-            radioItems.push({'classid':$(this).attr('classid'),'name':$(this).text(),'color':$(this).find('i').css('color')});
+            checkItems.push({'classid':$(this).attr('classid'),'name':$(this).text()});
         }
-
         );
 
     })
     .then(function(){
-      $('.select-Accordion [classId="1000"]').next('.select-Accordion-panel').slideToggle();
-      $('.select-Accordion [classId="1000"]').children('i').removeClass('fa-minus-square');
-      $('.select-Accordion [classId="1000"]').children('i').addClass('fa-plus-square');
+      $('.check-Accordion [classId="1000"]').next('.check-Accordion-panel').slideToggle();
+      $('.check-Accordion [classId="1000"]').children('i').removeClass('fa-minus-square');
+      $('.check-Accordion [classId="1000"]').children('i').addClass('fa-plus-square');
 
     });
 }
 
-var showParentAccor = function ($radio) {
-    var parentAcc = $radio.parents('.select-Accordion-panel');
-    if (parentAcc.length > 0) {
-        for (let i = parentAcc.length - 1; i >= 0; i--) {
-            if ($(parentAcc[i]).is(':hidden')) {
-                var preControl = $(parentAcc[i]).prev('.select-Accordion-control');
-                console.log();
-                $(parentAcc[i]).prev('.select-Accordion-control').trigger('click');
+var findAllChecked=function(){
+  const checkedArray= $('.check-Accordion input:checkbox:checked');
+  var checkedData=[];
+  for(let i=0;i<checkedArray.length;i++){
+    checkedData.push($(checkedArray[i]).parent('.input-check').attr('classId'));
+  }
+  return checkedData;
 
-            }
-        }
+}
 
+var findCheckedNameById=function(idArray){
+  var checkedNameArray=[];
+  if(Array.isArray(idArray))
+  for(let i=0;i<checkItems.length;i++){
+    for(let j=0;j<idArray.length;j++){
+      if(checkItems[i].classid===idArray[j]){
+        checkedNameArray.push(checkItems[i].name);
+      }
     }
 
+  }
+  return checkedNameArray;
 }
+
 $(function(){
-
-  $('body').on('click','#select-cancle',function(){
+  $('body').on('click','#check-cancle',function(){
     $('#pop').css('display','none');
-    $('#selectList').css('display','none');
+    $('#checkList').css('display','none');
 
-  })
+  });
 
-  $('body').on('click','#select-yes',function(){
+  $('body').on('click','#check-yes',function(){
+    console.log(findCheckedNameById(findAllChecked()));
     $('#pop').css('display','none');
-    $('#selectList').css('display','none');
+    $('#checkList').css('display','none');
 
-  })
-//响应点击
-    $('div').on('click','.input-select',function(e){
+  });
+  $('body').on('click','#checkSelect',function(){
+    if($('#pop').css('display')!='block'){
+        $('#pop').css('height',$(document).height());
+        $('#pop').css('display','block');
+        $('#checkList').css('left',($(document.body).width()/2)-210);
+        $('#checkList').css('display','block');
+    　
+    }
+  });
+  //手风琴风格菜单 折叠
+      $('.check-Accordion').on('click','.check-Accordion-control',function(e){
+
+          e.preventDefault();
+          if($(this).next('.check-Accordion-panel').is(':hidden')){
+              $(this).children('i').removeClass('fa-plus-square');
+              $(this).children('i').addClass('fa-minus-square');
+
+          }
+          else{
+              $(this).children('i').addClass('fa-plus-square');
+              $(this).children('i').removeClass('fa-minus-square');
+
+          }
+          $(this).next('.check-Accordion-panel').not('animated').slideToggle();
+
+      });
+      $('#checkList').on('click','.input-check',function(e){
         e.stopPropagation();
-        if($('.input-select, .checkBorder').length>0){
-            $('.input-select, .checkBorder').removeClass('checkBorder');
-        }
-        $(this).addClass('checkBorder');
-        var $radio=$(this).children('input');
-        $radio.prop('checked',true);
-
-    });
-
-//手风琴风格菜单 折叠
-    $('.select-Accordion').on('click','.select-Accordion-control',function(e){
-
-        e.preventDefault();
-        if($(this).next('.select-Accordion-panel').is(':hidden')){
-            $(this).children('i').removeClass('fa-plus-square');
-            $(this).children('i').addClass('fa-minus-square');
-
+        if($(this).hasClass('checkBackground')){
+          $(this).removeClass('checkBackground');
+          $(this).children('input').prop('checked',false);
         }
         else{
-            $(this).children('i').addClass('fa-plus-square');
-            $(this).children('i').removeClass('fa-minus-square');
-
-        }
-        $(this).next('.select-Accordion-panel').not('animated').slideToggle();
-
-    });
-
-//隐藏功能演示
-$('body').on('click','#radioSelect',function(){
-  if($('#pop').css('display')!='block'){
-      $('#pop').css('height',$(document).height());
-      $('#pop').css('display','block');
-      $('#selectList').css('left',($(document.body).width()/2)-210);
-      $('#selectList').css('display','block');
-
-      　
-  }
-  else{
-    $('#pop').css('display','none');
-    $('#selectList').css('display','none');
-  }
-
-});
-
-//自动联想
-    $('#searchArea').on('input propertychange',function(){
-        var text=$('#searchText').val().toUpperCase();
-        if (text.length>0){
-            var hitItems=[];
-            hitItems=radioItems.filter(function(item,index){
-                if(item.name.toUpperCase().indexOf(text)>-1){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            });
-
-            $('#linkBox ul').empty();
-            for(i in hitItems){
-                $('#linkBox ul').append(`<li itemId='${hitItems[i].classid}'>${hitItems[i].name}</li>`);
-            }
-            $('#linkBox').show();
-        }
-        else{
-            $('#linkBox').hide();
-
+          $(this).addClass('checkBackground');
+          $(this).children('input').prop('checked',true);
         }
 
-    });
-//点击全选输入框中内容
-    $('#searchArea').on('click','input:text',function(){
-        $(this).select();
+      });
+  insertItemCheck();
 
-    });
 
-//通过快速搜索选中类别
-    $('#linkBox ul').on('click','li',function(){
-        var classId=$(this).attr('itemId');
-        var $radio= $('.select-Accordion').find("[classId='"+classId+"']");
-        $radio.trigger('click');
-        //检查是否显示
-        showParentAccor($radio);
-        //设置input的值
-        $('#searchText').val($(this).text());
-        $('#linkBox').hide();
-    });
 
-//加载菜单
-    insertItem();
-
-//隐藏第一类
-    $('[classId="1000"]').trigger('click');
 })
